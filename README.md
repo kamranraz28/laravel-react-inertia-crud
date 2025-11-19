@@ -1,4 +1,4 @@
-Quick summary (what we’ll do)
+Quick summary (what I did)
 1.	Create a latest Laravel project
 2.	Install Breeze with the React/Inertia stack (it scaffolds Inertia + React + Vite)
 3.	Wire up frontend (vite / npm) and run
