@@ -1,10 +1,11 @@
 import { Head, Link } from "@inertiajs/react";
-
+import FlashMessage from "../../Components/FlashMessage";
 export default function Index({ posts }) {
     return (
         <>
             <Head title="Posts" />
             <div className="p-6 bg-white rounded-lg shadow-lg">
+                <FlashMessage />
                 <h1 className="mb-4 text-2xl font-bold">Posts</h1>
                 <ul>
                     {posts.data.map((post) => (
