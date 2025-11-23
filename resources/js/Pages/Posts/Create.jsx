@@ -1,6 +1,8 @@
-import { Head } from "@inertiajs/react";
+import InputError from "@/Components/InputError";
+import { Head, usePage } from "@inertiajs/react";
 
 export default function Create() {
+    const { errors} = usePage().props;
     return (
         <>
             <Head title="Create Post" />
@@ -27,8 +29,8 @@ export default function Create() {
                             id="title"
                             name="title"
                             className="w-full p-2 border border-gray-300 rounded"
-                            required
                         />
+                        <InputError field="title" className="mt-2" />
                     </div>
                     <div className="mb-4">
                         <label
@@ -42,8 +44,8 @@ export default function Create() {
                             name="body"
                             className="w-full p-2 border border-gray-300 rounded"
                             rows="5"
-                            required
                         ></textarea>
+                        <InputError field="body" className="mt-2" />
                     </div>
                     <button
                         type="submit"

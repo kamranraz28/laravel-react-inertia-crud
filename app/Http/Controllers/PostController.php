@@ -2,20 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
+use App\Services\PostService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class PostController extends Controller
 {
+    protected $service;
+
+    public function __construct(PostService $service)
+    {
+        $this->service = $service;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'desc')->paginate(10);
         return Inertia::render('Posts/Index', [
-            'posts' => $posts
+            'posts' => $this->service->listPosts()
         ]);
     }
 
@@ -31,14 +39,9 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        //
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
-        ]);
-        Post::create($data);
+        $this->service->createPost($request->validated());
         return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
 
@@ -67,14 +70,9 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post)
     {
-        //
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
-        ]);
-        $post->update($data);
+        $this->service->updatePost($post, $request->validated());
         return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
 
@@ -84,7 +82,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
-        $post->delete();
+        $this->service->deletePost($post);
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
     }
 }

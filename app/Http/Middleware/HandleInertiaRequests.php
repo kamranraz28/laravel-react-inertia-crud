@@ -41,6 +41,11 @@ class HandleInertiaRequests extends Middleware
                 'success' => $request->session()->get('success'),
                 'error' => $request->session()->get('error'),
             ],
+
+            // Share validation errors
+            'errors' => $request->session()->get('errors')
+                ? $request->session()->get('errors')->getBag('default')->messages()
+                : [],
         ];
     }
 
